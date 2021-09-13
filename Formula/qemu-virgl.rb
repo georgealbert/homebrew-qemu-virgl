@@ -2,7 +2,7 @@ class QemuVirgl < Formula
   desc "Emulator for x86 and PowerPC"
   homepage "https://www.qemu.org/"
   url "https://github.com/qemu/qemu.git", using: :git, revision: "2fa4ad3f9000c385f71237984fdd1eefe2a91900"
-  version "20210725.1"
+  version "20210913.1"
   license "GPL-2.0-only"
 
   bottle do
@@ -15,7 +15,7 @@ class QemuVirgl < Formula
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
 
-  depends_on "glib"
+  #depends_on "glib"
   depends_on "gnutls"
   depends_on "jpeg"
   depends_on "knazarov/qemu-virgl/libangle"
