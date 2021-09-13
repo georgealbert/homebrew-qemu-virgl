@@ -56,6 +56,7 @@ class QemuVirgl < Formula
       --prefix=#{prefix}
       --cc=#{ENV.cc}
       --host-cc=#{ENV.cc}
+      --target-list=x86_64-softmmu
       --disable-bsd-user
       --disable-guest-agent
       --enable-curses
@@ -84,41 +85,13 @@ class QemuVirgl < Formula
       args << "--enable-cocoa"
     end
 
-    system "./configure", *args
+    system "PKG_CONFIG_PATH=/Users/albert/qemu/glib-2.58.3/lib/pkgconfig:$PKG_CONFIG_PATH ./configure", *args
     system "make", "V=1", "install"
   end
 
   test do
     expected = "QEMU Project"
-    assert_match expected, shell_output("#{bin}/qemu-system-aarch64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-alpha --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-arm --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-cris --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-hppa --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-i386 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-m68k --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-microblaze --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-microblazeel --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-mips --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-mips64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-mips64el --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-mipsel --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-nios2 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-or1k --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-ppc --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-ppc64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-riscv32 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-riscv64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-rx --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-s390x --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-sh4 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-sh4eb --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-sparc --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-sparc64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-tricore --version")
     assert_match expected, shell_output("#{bin}/qemu-system-x86_64 --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-xtensa --version")
-    assert_match expected, shell_output("#{bin}/qemu-system-xtensaeb --version")
     resource("test-image").stage testpath
     assert_match "file format: raw", shell_output("#{bin}/qemu-img info FLOPPY.img")
   end
